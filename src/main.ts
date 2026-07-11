@@ -72,14 +72,23 @@ async function boot() {
   const { renderer, scene, camera } = ctx;
   console.info(`[shema-scroll] backend: ${ctx.isWebGPU ? 'WebGPU' : 'WebGL2 (fallback)'}`);
 
-  // --- Audio first (columns reference tracks).
+  // --- Audio: start all loads now, but only p1 gates the start button —
+  // p2/p3 finish downloading behind the landing screen and first session.
   const engine = new AudioEngine();
-  await Promise.all(
-    shema.paragraphs.map((p) => engine.loadTrack(p.id, p.audioTrack, `timing/${p.id}.json`)),
+  const trackLoads = new Map(
+    shema.paragraphs.map((p) => [
+      p.id,
+      engine.loadTrack(p.id, p.audioTrack, `timing/${p.id}.json`),
+    ]),
   );
+  await trackLoads.get('p1');
   canvas.addEventListener('pointerdown', () => engine.unlock(), { once: true });
 
   // --- Three columns, laid out right-to-left (Torah order): p1 right, p3 left.
+  // Bake ladder: smaller canvases on coarse-pointer/small/low-memory devices.
+  const isCoarse = matchMedia('(pointer: coarse)').matches;
+  const lowMem = (navigator as { deviceMemory?: number }).deviceMemory ?? 8;
+  const bakeSize = isCoarse || lowMem <= 4 || Math.min(innerWidth, innerHeight) < 500 ? 1600 : 2048;
   const columnH = 1.4;
   const columnW = columnH; // square canvases
   const gap = 0.06;
@@ -89,9 +98,9 @@ async function boot() {
   const columns: Column[] = shema.paragraphs.map((paragraph, i) => {
     const words = paragraph.verses.flatMap((v) => v.words);
     const baked = bakeColumn(words, {
-      width: 2048,
-      height: 2048,
-      fontPx: 130,
+      width: bakeSize,
+      height: bakeSize,
+      fontPx: Math.round(bakeSize * 0.0635),
       background: null,
       debugRects: params.has('debugRects'),
       maxAnisotropy: 8,
@@ -128,14 +137,23 @@ async function boot() {
   const lighting = createLighting(scene);
 
   // --- Camera: overview at landing, per-column poses afterwards.
-  const camDist = (columnH / 2 / Math.tan((camera.fov * Math.PI) / 360)) * 1.06;
-  const overviewZ =
-    (spreadW / 2 / Math.tan((camera.fov * Math.PI) / 360)) * 1.05 / camera.aspect + 0.4;
-  const camTarget = new Vector3(0, 0, Math.max(camDist, overviewZ));
-  camera.position.copy(camTarget);
-  const focusColumn = (pid: Pid) => {
-    camTarget.set(byPid.get(pid)!.centerX, 0, camDist);
+  // Distance must fit BOTH height and width (portrait phones are width-bound).
+  const tanHalfFov = () => Math.tan((camera.fov * Math.PI) / 360);
+  const fitDist = (w: number, h: number) =>
+    Math.max(h / 2 / tanHalfFov(), w / 2 / (tanHalfFov() * camera.aspect)) * 1.08 + 0.06;
+  const camTarget = new Vector3();
+  let focused: Pid | 'overview' = 'overview';
+  const applyFocus = () => {
+    if (focused === 'overview') camTarget.set(0, 0, fitDist(spreadW, columnH) * 0.92);
+    else camTarget.set(byPid.get(focused)!.centerX, 0, fitDist(columnW, columnH));
   };
+  const focusColumn = (pid: Pid | 'overview') => {
+    focused = pid;
+    applyFocus();
+  };
+  applyFocus();
+  camera.position.copy(camTarget);
+  addEventListener('resize', applyFocus);
 
   // --- Yad, strip, screens.
   const yad = new Yad();
@@ -215,8 +233,9 @@ async function boot() {
       // Beat 4a — FOLLOW: the yad glides itself; grab anytime to take over.
       machine.go({ name: 'follow', paragraph: 'p2' });
       screens.hint('This one’s long — so just listen. The yad knows the way. Grab it anytime.');
-      setTimeout(() => {
+      setTimeout(async () => {
         screens.hint(null);
+        await trackLoads.get('p2'); // in case a slow connection is still downloading
         if (machine.is('follow')) col.karaoke.play();
       }, 2600);
     } else if (pid === 'p3') {
@@ -344,7 +363,7 @@ async function boot() {
     progress.celebrated = true;
     persist();
     screens.lamp(1);
-    camTarget.set(0, 0, Math.max(camDist, overviewZ)); // pull back: the whole scroll, yours
+    focusColumn('overview'); // pull back: the whole scroll, yours
     const days = progress.bmitzvahDate ? daysUntil(progress.bmitzvahDate) : null;
     screens.celebration(
       days,

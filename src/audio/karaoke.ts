@@ -22,7 +22,6 @@ export class KaraokePlayer extends EventTarget {
     private track: string,
   ) {
     super();
-    this.words = engine.timing(track)?.words ?? [];
   }
 
   on<K extends keyof KaraokeEvents>(type: K, fn: (detail: KaraokeEvents[K]) => void) {
@@ -37,6 +36,8 @@ export class KaraokePlayer extends EventTarget {
   /** Start playing from a word (default: the first). */
   play(fromWordId?: string) {
     this.stop();
+    // Timing loads lazily — tracks may still be downloading at construction.
+    this.words = this.engine.timing(this.track)?.words ?? [];
     if (!this.words.length) return;
     const startIdx = fromWordId ? this.words.findIndex((w) => w.id === fromWordId) : 0;
     const start = this.words[Math.max(0, startIdx)].start;

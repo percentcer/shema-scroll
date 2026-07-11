@@ -5,11 +5,11 @@ export const POINTED_FONT = 'TaameyFrankCLM';
 export const UI_FONT = 'Rubik';
 
 const FACES: Array<[family: string, file: string, weight?: string]> = [
-  [SCROLL_FONT, 'StamAshkenazCLM.ttf'],
-  [POINTED_FONT, 'TaameyFrankCLM-Medium.ttf'],
-  [UI_FONT, 'Rubik-Regular.ttf', '400'],
-  [UI_FONT, 'Rubik-Medium.ttf', '500'],
-  [UI_FONT, 'Rubik-Bold.ttf', '700'],
+  [SCROLL_FONT, 'StamAshkenazCLM.woff2'],
+  [POINTED_FONT, 'TaameyFrankCLM-Medium.woff2'],
+  [UI_FONT, 'Rubik-Regular.woff2', '400'],
+  [UI_FONT, 'Rubik-Medium.woff2', '500'],
+  [UI_FONT, 'Rubik-Bold.woff2', '700'],
 ];
 
 /**
