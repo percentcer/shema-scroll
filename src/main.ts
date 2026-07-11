@@ -1,11 +1,13 @@
-import { HemisphereLight, PointLight, TextureLoader, SRGBColorSpace } from 'three/webgpu';
+import { TextureLoader, SRGBColorSpace } from 'three/webgpu';
 import { AudioEngine } from './audio/engine';
 import { KaraokePlayer } from './audio/karaoke';
 import { ScrubPlayer } from './audio/scrub';
 import { paragraphWords } from './content/shema';
 import { ScrollPointer } from './interaction/pointer';
+import { createLighting } from './scene/lighting';
 import { createParchmentMaterial } from './scene/parchmentMaterial';
 import { createSceneContext } from './scene/renderer';
+import { createRollers } from './scene/rollers';
 import { createScrollColumn, surfacePoint } from './scene/scroll';
 import { Yad } from './scene/yad';
 import { bakeColumn, type BakedWord } from './text/bake';
@@ -156,19 +158,16 @@ async function boot() {
     }
   });
 
-  // --- Lights.
-  const candle = new PointLight('#ffb066', 12, 0, 2);
-  candle.position.set(-0.8, 0.9, 1.1);
-  scene.add(candle);
-  scene.add(new HemisphereLight('#8899bb', '#221408', 0.35));
+  // --- Lights + rollers.
+  const lighting = createLighting(scene);
+  scene.add(createRollers(columnW, columnH));
 
-  const candleBase = candle.intensity;
   let last = 0;
   renderer.setAnimationLoop((time: number) => {
     const t = time / 1000;
     const dt = Math.min(0.05, t - last || 0.016);
     last = t;
-    candle.intensity = candleBase * (1 + 0.06 * Math.sin(t * 7.3) + 0.04 * Math.sin(t * 13.1));
+    lighting.update(t);
     yad.update(dt);
     parchment.highlight.update(dt);
     parchment.trail.update(dt);

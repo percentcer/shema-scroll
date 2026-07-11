@@ -4,11 +4,13 @@ import {
   clamp,
   float,
   mix,
+  mx_noise_float,
   smoothstep,
   texture,
   time,
   uniform,
   uv,
+  vec2,
   vec3,
   vec4,
 } from 'three/tsl';
@@ -50,7 +52,20 @@ export function createParchmentMaterial(
   const material = new MeshStandardNodeMaterial();
 
   const ink = texture(inkTexture);
-  const paper = texture(pbr.albedo).mul(vec3(1.0, 0.94, 0.82)); // warm klaf tint
+
+  // Weathering: darkened edges (handled parchment) + slow fbm blotches.
+  const p = uv();
+  const edgeFade = smoothstep(0.0, 0.16, p.x)
+    .mul(smoothstep(1.0, 0.84, p.x))
+    .mul(smoothstep(0.0, 0.1, p.y))
+    .mul(smoothstep(1.0, 0.9, p.y));
+  const vignette = mix(float(0.72), float(1.0), edgeFade);
+  const blotch = mx_noise_float(p.mul(vec2(5, 3)))
+    .mul(0.6)
+    .add(mx_noise_float(p.mul(vec2(14, 9))).mul(0.4));
+  const stain = vignette.mul(float(1.0).sub(blotch.mul(0.09)));
+  const ageTint = mix(vec3(1.0, 0.9, 0.72), vec3(1.0, 0.96, 0.86), edgeFade); // browner edges
+  const paper = texture(pbr.albedo).mul(ageTint).mul(stain);
 
   const makeRectUniforms = () => ({
     rect: uniform(vec4(0, 0, 0, 0)),
@@ -79,9 +94,13 @@ export function createParchmentMaterial(
   material.colorNode = clamp(lit, 0, 2);
 
   material.normalMap = pbr.normal;
-  material.roughnessNode = texture(pbr.rough).r
-    .mul(float(1).sub(inkMask.mul(0.35)))
-    .mul(float(1).sub(glow.mul(0.15)));
+  // Ink is barely glossier than parchment — too much reads as faded ink
+  // under specular at glancing angles.
+  material.roughnessNode = clamp(
+    texture(pbr.rough).r.mul(float(1).sub(inkMask.mul(0.12))).mul(float(1).sub(glow.mul(0.1))),
+    0.55,
+    1,
+  );
 
   const makeHandle = (u: ReturnType<typeof makeRectUniforms>): HighlightHandle => {
     let target = 0;
