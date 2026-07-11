@@ -3,7 +3,7 @@
 export const copy = {
   landing: {
     kicker: 'Your B’Mitzvah is coming.',
-    headline: 'You’ve got this.',
+    headline: 'Let’s open the scroll.',
     promise:
       'Start with the Shema — the most famous words in the Torah. Hear them. Touch them. Actually understand them.',
     note: 'No Hebrew needed. About ten minutes.',
@@ -66,7 +66,7 @@ export const copy = {
       },
     ],
   },
-  lamp: ['Just arrived', 'Getting the sound', 'Following along', 'Almost there', 'You’ve got this'],
+  lamp: ['Just arrived', 'Getting the sound', 'Following along', 'Almost there', 'You know it!'],
   credits: {
     title: 'Credits & sources',
     items: [

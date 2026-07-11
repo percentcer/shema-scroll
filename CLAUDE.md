@@ -18,7 +18,7 @@ Full three-paragraph Shema (Deut 6:4–9, Deut 11:13–21, Num 15:37–41).
 
 ## Experience arc (all implemented)
 
-Landing ("You've got this", optional B'Mitzvah date → countdown; parent modal) →
+Landing ("Let's open the scroll", optional B'Mitzvah date → countdown; parent modal) →
 camera dollies to column 1 → tutorial (pulsing שמע, "touch it", RTL hint, 8s-idle
 ghost demo where the yad demonstrates itself) → trace verse 1 → Meaning Card #0 →
 **Baruch Shem whisper moment** (glowing air-text *beside* the scroll — it's liturgy,

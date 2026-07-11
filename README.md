@@ -11,7 +11,7 @@ the yad. No Hebrew knowledge assumed, no login, warm-not-preachy tone.
 
 ## The experience
 
-1. **Landing** — "Your B'Mitzvah is coming. You've got this."
+1. **Landing** — "Your B'Mitzvah is coming. Let's open the scroll."
 2. **Discover the yad** — one glowing word: *sh'MA*. Touch it, it sings.
 3. **The star line** — trace Deut 6:4 end to end, then the meaning lands.
 4. **Baruch Shem** — the whispered line appears floating *beside* the scroll,
