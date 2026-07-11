@@ -1,108 +1,178 @@
-import { HemisphereLight, PointLight } from 'three/webgpu';
+import { HemisphereLight, PointLight, TextureLoader, SRGBColorSpace } from 'three/webgpu';
 import { AudioEngine } from './audio/engine';
 import { KaraokePlayer } from './audio/karaoke';
 import { ScrubPlayer } from './audio/scrub';
 import { paragraphWords } from './content/shema';
 import { ScrollPointer } from './interaction/pointer';
+import { createParchmentMaterial } from './scene/parchmentMaterial';
 import { createSceneContext } from './scene/renderer';
-import { createScrollColumn } from './scene/scroll';
-import { bakeColumn } from './text/bake';
+import { createScrollColumn, surfacePoint } from './scene/scroll';
+import { Yad } from './scene/yad';
+import { bakeColumn, type BakedWord } from './text/bake';
 import { loadFonts } from './text/fonts';
 import { WordIndex } from './text/wordIndex';
+import { LearnerStrip } from './ui/strip';
+
+const base = import.meta.env.BASE_URL;
+
+async function loadTexture(loader: TextureLoader, url: string, srgb = false) {
+  const t = await loader.loadAsync(base + url);
+  if (srgb) t.colorSpace = SRGBColorSpace;
+  return t;
+}
 
 async function boot() {
-  const params0 = new URLSearchParams(location.search);
-  if (params0.has('timing')) {
+  const params = new URLSearchParams(location.search);
+  if (params.has('timing')) {
     await loadFonts();
     const { runTimingTool } = await import('./dev/timingTool');
-    const seed = await fetch(`${import.meta.env.BASE_URL}timing/p1.json`)
+    const seed = await fetch(`${base}timing/p1.json`)
       .then((r) => (r.ok ? r.json() : undefined))
       .catch(() => undefined);
-    runTimingTool(
-      paragraphWords('p1'),
-      `${import.meta.env.BASE_URL}audio/superjew-p1.mp3`,
-      'timing-p1',
-      seed,
-    );
+    runTimingTool(paragraphWords('p1'), `${base}audio/superjew-p1.mp3`, 'timing-p1', seed);
     return;
   }
 
   const canvas = document.querySelector<HTMLCanvasElement>('#app-canvas')!;
-  const [ctx] = await Promise.all([createSceneContext(canvas), loadFonts()]);
+  const loader = new TextureLoader();
+  const [ctx, , albedo, normal, rough] = await Promise.all([
+    createSceneContext(canvas),
+    loadFonts(),
+    loadTexture(loader, 'textures/parchment_albedo.webp', true),
+    loadTexture(loader, 'textures/parchment_normal.webp'),
+    loadTexture(loader, 'textures/parchment_rough.webp'),
+  ]);
   const { renderer, scene, camera } = ctx;
 
   console.info(`[shema-scroll] backend: ${ctx.isWebGPU ? 'WebGPU' : 'WebGL2 (fallback)'}`);
 
-  const params = new URLSearchParams(location.search);
-
-  // Stage-2: full paragraph 1 baked as one scroll column.
-  const baked = bakeColumn(paragraphWords('p1'), {
+  // --- Scroll column: ink baked on transparent, composited in the shader.
+  const words = paragraphWords('p1');
+  const baked = bakeColumn(words, {
     width: 2048,
     height: 2048,
     fontPx: 130,
-    background: '#e8d8b0',
+    background: null,
     debugRects: params.has('debugRects'),
     maxAnisotropy: 8,
   });
+  const wordById = new Map<string, BakedWord>(baked.words.map((w) => [w.id, w]));
   console.info(`[shema-scroll] baked ${baked.words.length} words, ${baked.layout.lineCount} lines`);
 
   const columnH = 1.4;
   const columnW = columnH * (baked.canvasWidth / baked.canvasHeight);
-  const column = createScrollColumn(baked.texture, { width: columnW, height: columnH });
+  const columnOpts = { width: columnW, height: columnH };
+  const parchment = createParchmentMaterial(baked.texture, { albedo, normal, rough });
+  const column = createScrollColumn(parchment.material, columnOpts);
   scene.add(column);
-  // Frame the whole column: visible height at distance d is 2·d·tan(fov/2).
   camera.position.set(0, 0, (columnH / 2 / Math.tan((camera.fov * Math.PI) / 360)) * 1.06);
 
-  const index = new WordIndex(baked.words);
-  const pointer = new ScrollPointer(canvas, camera, column, index);
+  // --- Yad + learner strip.
+  const yad = new Yad();
+  scene.add(yad.group);
+  const ui = document.querySelector<HTMLDivElement>('#ui-root')!;
+  const strip = new LearnerStrip(ui);
 
-  // Stage-4: audio core. Scrub on hover, hold to repeat, karaoke via button.
+  // --- Audio.
   const engine = new AudioEngine();
   await engine.loadTrack('p1', 'audio/superjew-p1.mp3', 'timing/p1.json');
   const scrub = new ScrubPlayer(engine, 'p1');
   const karaoke = new KaraokePlayer(engine, 'p1');
-  karaoke.on('word', ({ id }) => console.info(`[karaoke] ${id}`));
-  karaoke.on('ended', () => console.info('[karaoke] ended'));
-
   canvas.addEventListener('pointerdown', () => engine.unlock(), { once: true });
 
+  const wordAnchor = (w: BakedWord) => {
+    const cu = (w.uvRect.u0 + w.uvRect.u1) / 2;
+    return surfacePoint(cu, w.uvRect.v0, columnOpts);
+  };
+
+  const showWord = (w: BakedWord) => {
+    parchment.highlight.show(w.uvRect);
+    const word = words.find((x) => x.id === w.id);
+    if (word) strip.show(word, wordAnchor(w));
+  };
+
+  // --- Interaction: scrub with the yad (explore mode).
+  const index = new WordIndex(baked.words);
+  const pointer = new ScrollPointer(canvas, camera, column, index);
   pointer
+    .on('surfacemove', ({ point }) => {
+      if (!karaoke.playing) yad.setTarget(point);
+    })
+    .on('surfaceleave', () => {
+      if (!karaoke.playing) {
+        yad.hide();
+        strip.hide();
+      }
+    })
     .on('wordenter', ({ word }) => {
-      console.info(`[pointer] enter ${word.id}`);
-      if (!karaoke.playing) scrub.wordEnter(word.id);
+      if (karaoke.playing) return;
+      scrub.wordEnter(word.id);
+      showWord(word);
     })
     .on('wordhold', ({ word }) => {
       if (!karaoke.playing) scrub.wordHold(word.id);
     })
-    .on('wordleave', () => scrub.wordLeave());
+    .on('wordleave', () => {
+      if (karaoke.playing) return;
+      scrub.wordLeave();
+      parchment.highlight.hide();
+    });
 
-  const ui = document.querySelector<HTMLDivElement>('#ui-root')!;
-  ui.innerHTML = `<button id="play" style="position:fixed;bottom:24px;left:50%;
+  // --- Karaoke: highlight + auto-following yad.
+  karaoke.on('word', ({ id }) => {
+    const w = wordById.get(id);
+    if (!w) return;
+    showWord(w);
+    const a = wordAnchor(w);
+    yad.setTarget({ x: a.x, y: a.y + 0.01, z: a.z });
+  });
+  karaoke.on('ended', () => {
+    parchment.highlight.hide();
+    strip.hide();
+    yad.hide();
+    playBtn.textContent = '▶ Hear the whole thing';
+  });
+
+  ui.insertAdjacentHTML(
+    'beforeend',
+    `<button id="play" style="position:fixed;bottom:24px;left:50%;
     transform:translateX(-50%);pointer-events:auto;background:#d4a017;border:0;
     border-radius:24px;padding:12px 28px;font:600 16px Rubik,system-ui;cursor:pointer">
-    ▶ Hear the whole thing</button>`;
-  ui.querySelector<HTMLButtonElement>('#play')!.addEventListener('click', async (e) => {
+    ▶ Hear the whole thing</button>`,
+  );
+  const playBtn = ui.querySelector<HTMLButtonElement>('#play')!;
+  playBtn.addEventListener('click', async () => {
     await engine.unlock();
-    const btn = e.currentTarget as HTMLButtonElement;
     if (karaoke.playing) {
       karaoke.stop();
-      btn.textContent = '▶ Hear the whole thing';
+      parchment.highlight.hide();
+      strip.hide();
+      yad.hide();
+      playBtn.textContent = '▶ Hear the whole thing';
     } else {
       scrub.stop();
       karaoke.play();
-      btn.textContent = '⏸ Pause';
+      playBtn.textContent = '⏸ Pause';
     }
   });
 
+  // --- Lights.
   const candle = new PointLight('#ffb066', 12, 0, 2);
   candle.position.set(-0.8, 0.9, 1.1);
   scene.add(candle);
   scene.add(new HemisphereLight('#8899bb', '#221408', 0.35));
 
   const candleBase = candle.intensity;
+  let last = 0;
   renderer.setAnimationLoop((time: number) => {
     const t = time / 1000;
+    const dt = Math.min(0.05, t - last || 0.016);
+    last = t;
     candle.intensity = candleBase * (1 + 0.06 * Math.sin(t * 7.3) + 0.04 * Math.sin(t * 13.1));
+    yad.update(dt);
+    parchment.highlight.update(dt);
+    parchment.trail.update(dt);
+    strip.update(camera);
     renderer.render(scene, camera);
   });
 }

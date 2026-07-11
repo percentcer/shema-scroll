@@ -1,4 +1,4 @@
-import { Mesh, MeshStandardNodeMaterial, PlaneGeometry, type Texture } from 'three/webgpu';
+import { Mesh, PlaneGeometry, type Material } from 'three/webgpu';
 
 export interface ScrollColumnOptions {
   width: number;
@@ -42,11 +42,24 @@ export function surfaceZ(u: number, v: number, opts: ScrollColumnOptions): numbe
   return curl + wave;
 }
 
+/** World-space point on the (origin-centered) column surface for a UV. */
+export function surfacePoint(
+  u: number,
+  v: number,
+  opts: ScrollColumnOptions,
+): { x: number; y: number; z: number } {
+  return {
+    x: (u - 0.5) * opts.width,
+    y: (v - 0.5) * opts.height,
+    z: surfaceZ(u, v, opts),
+  };
+}
+
 /**
  * A scroll column: plane with curl + waviness baked into CPU vertex positions
  * so raycasting hits the true surface. UVs are untouched.
  */
-export function createScrollColumn(texture: Texture, opts: ScrollColumnOptions): Mesh {
+export function createScrollColumn(material: Material, opts: ScrollColumnOptions): Mesh {
   const { width, height } = opts;
   const geometry = new PlaneGeometry(width, height, 96, 48);
   const pos = geometry.attributes.position;
@@ -57,6 +70,5 @@ export function createScrollColumn(texture: Texture, opts: ScrollColumnOptions):
   pos.needsUpdate = true;
   geometry.computeVertexNormals();
 
-  const material = new MeshStandardNodeMaterial({ map: texture, roughness: 0.85 });
   return new Mesh(geometry, material);
 }
