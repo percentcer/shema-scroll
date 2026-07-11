@@ -1,24 +1,39 @@
 import {
-  Color,
   HemisphereLight,
   Mesh,
   MeshStandardNodeMaterial,
   PlaneGeometry,
   PointLight,
 } from 'three/webgpu';
+import { shema } from './content/shema';
 import { createSceneContext } from './scene/renderer';
+import { bakeColumn } from './text/bake';
+import { loadFonts } from './text/fonts';
 
 async function boot() {
   const canvas = document.querySelector<HTMLCanvasElement>('#app-canvas')!;
-  const ctx = await createSceneContext(canvas);
+  const [ctx] = await Promise.all([createSceneContext(canvas), loadFonts()]);
   const { renderer, scene, camera } = ctx;
 
   console.info(`[shema-scroll] backend: ${ctx.isWebGPU ? 'WebGPU' : 'WebGL2 (fallback)'}`);
 
-  // Stage-0 placeholder: a lit parchment-toned plane where the scroll will live.
+  const params = new URLSearchParams(location.search);
+
+  // Stage-1 spike: bake Deut 6:4 in STaM script onto the plane.
+  const baked = bakeColumn(shema.paragraphs[0].verses[0].words, {
+    background: '#e8d8b0',
+    debugRects: params.has('debugRects'),
+  });
+  console.info(
+    `[shema-scroll] baked ${baked.words.length} words, ${baked.layout.lineCount} lines`,
+    baked.words.map((w) => `${w.id}@${Math.round(w.x)},${Math.round(w.y)}`).join(' '),
+  );
+
+  const aspect = baked.canvasWidth / baked.canvasHeight;
+  const planeH = 1.0;
   const plane = new Mesh(
-    new PlaneGeometry(1.6, 1.0, 96, 48),
-    new MeshStandardNodeMaterial({ color: new Color('#e8d8b0'), roughness: 0.85 }),
+    new PlaneGeometry(planeH * aspect, planeH, 96, 48),
+    new MeshStandardNodeMaterial({ map: baked.texture, roughness: 0.85 }),
   );
   scene.add(plane);
 

@@ -1,0 +1,13 @@
+Audio credits
+
+superjew-p1/p2/p3.mp3 — "Shema 1/2/3 SuperJew" by SuperJew (Wikimedia Commons)
+  https://commons.wikimedia.org/wiki/File:Shema_1_SuperJew.ogg
+  https://commons.wikimedia.org/wiki/File:Shema_2_SuperJew.ogg
+  https://commons.wikimedia.org/wiki/File:Shema_3_SuperJew.ogg
+  License: CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0/)
+  Modifications: transcoded Ogg Vorbis -> mono MP3; may be sliced for word-level playback.
+
+tilsen-p1.mp3 — "Shema1j" by Rabbi Jon-Jay Tilsen, Congregation Beth El-Keser Israel
+  https://commons.wikimedia.org/wiki/File:Shema1j.ogg
+  License: CC0 1.0 Public Domain Dedication
+  Modifications: transcoded to mono MP3.

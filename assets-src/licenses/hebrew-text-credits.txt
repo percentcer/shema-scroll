@@ -1,0 +1,5 @@
+Hebrew text source
+Sefaria — "Miqra according to the Masorah" (heVersionTitle)
+License: CC BY-SA (https://creativecommons.org/licenses/by-sa/4.0/)
+Refs: Deuteronomy 6:4-9, Deuteronomy 11:13-21, Numbers 15:37-41
+Raw API responses archived in assets-src/sefaria/

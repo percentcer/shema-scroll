@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(node tools/screenshot.mjs *)",
+      "Bash(npm run build)",
+      "Bash(npm run dev *)",
+      "Bash(npm run typecheck)",
+      "Bash(npm run test)",
+      "Bash(npm view *)",
+      "Bash(mkdir *)"
+    ]
+  }
+}
