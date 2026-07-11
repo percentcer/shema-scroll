@@ -33,6 +33,8 @@ export interface ParchmentMaterialResult {
   highlight: HighlightHandle;
   /** Secondary rect used as the scrub trail (fades out on its own). */
   trail: HighlightHandle;
+  /** Third rect for tutorial pulses / quiz choices. */
+  aux: HighlightHandle;
 }
 
 /**
@@ -73,6 +75,7 @@ export function createParchmentMaterial(
   });
   const h1 = makeRectUniforms();
   const h2 = makeRectUniforms();
+  const h3 = makeRectUniforms();
 
   const rectGlow = (u: ReturnType<typeof makeRectUniforms>) => {
     const p = uv();
@@ -85,7 +88,7 @@ export function createParchmentMaterial(
   };
 
   const glowColor = vec3(1.0, 0.78, 0.25);
-  const glow = add(rectGlow(h1), rectGlow(h2));
+  const glow = add(add(rectGlow(h1), rectGlow(h2)), rectGlow(h3));
   const inkMask = ink.a;
 
   const inked = mix(paper, ink.rgb, inkMask);
@@ -120,5 +123,5 @@ export function createParchmentMaterial(
     };
   };
 
-  return { material, highlight: makeHandle(h1), trail: makeHandle(h2) };
+  return { material, highlight: makeHandle(h1), trail: makeHandle(h2), aux: makeHandle(h3) };
 }
