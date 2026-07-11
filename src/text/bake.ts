@@ -58,24 +58,37 @@ export function bakeColumn(words: ShemaWord[], opts: BakeOptions = {}): BakedCol
   canvas.height = height;
   const ctx = canvas.getContext('2d')!;
 
-  const fontFor = (scale: number) => `${Math.round(fontPx * scale)}px ${SCROLL_FONT}`;
-  const measure = (text: string, scale: number) => {
-    ctx.font = fontFor(scale);
-    return ctx.measureText(text).width;
-  };
+  const layoutWords = words.map((w) => ({
+    id: w.id,
+    text: toScrollText(w),
+    enlarged: w.flags?.enlarged,
+  }));
 
-  const layout = layoutColumn(
-    words.map((w) => ({ id: w.id, text: toScrollText(w), enlarged: w.flags?.enlarged })),
-    {
+  // Auto-fit: shrink the font until the column fits its canvas.
+  let effectiveFontPx = fontPx;
+  let layout;
+  for (let attempt = 0; ; attempt++) {
+    const px = effectiveFontPx;
+    const fontFor = (scale: number) => `${Math.round(px * scale)}px ${SCROLL_FONT}`;
+    const measure = (text: string, scale: number) => {
+      ctx.font = fontFor(scale);
+      return ctx.measureText(text).width;
+    };
+    const margin = Math.round(px * 0.8);
+    layout = layoutColumn(layoutWords, {
       canvasWidth: width,
       canvasHeight: height,
-      fontPx,
+      fontPx: px,
       lineHeightFactor: 1.65,
-      margin: Math.round(fontPx * 0.8),
+      margin,
       enlargedScale: ENLARGED_SCALE,
       measure,
-    },
-  );
+    });
+    const used = margin * 2 + layout.lineCount * layout.lineHeight;
+    if (used <= height || attempt >= 4) break;
+    effectiveFontPx = Math.floor(effectiveFontPx * Math.sqrt(height / used) * 0.98);
+  }
+  const fontFor = (scale: number) => `${Math.round(effectiveFontPx * scale)}px ${SCROLL_FONT}`;
 
   if (background) {
     ctx.fillStyle = background;

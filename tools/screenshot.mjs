@@ -14,6 +14,14 @@ page.on('pageerror', (err) => console.log(`[pageerror] ${err.message}`));
 
 await page.goto(url, { waitUntil: 'networkidle' });
 await page.waitForTimeout(Number(waitMs));
+// Optional pointer sweep: HOVER="x1,y1;x2,y2;..." env var
+if (process.env.HOVER) {
+  for (const pair of process.env.HOVER.split(';')) {
+    const [x, y] = pair.split(',').map(Number);
+    await page.mouse.move(x, y, { steps: 12 });
+    await page.waitForTimeout(250);
+  }
+}
 await page.screenshot({ path: out });
 await browser.close();
 console.log(`saved ${out}`);
