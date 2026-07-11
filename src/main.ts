@@ -8,6 +8,22 @@ import { loadFonts } from './text/fonts';
 import { WordIndex } from './text/wordIndex';
 
 async function boot() {
+  const params0 = new URLSearchParams(location.search);
+  if (params0.has('timing')) {
+    await loadFonts();
+    const { runTimingTool } = await import('./dev/timingTool');
+    const seed = await fetch(`${import.meta.env.BASE_URL}timing/p1.json`)
+      .then((r) => (r.ok ? r.json() : undefined))
+      .catch(() => undefined);
+    runTimingTool(
+      paragraphWords('p1'),
+      `${import.meta.env.BASE_URL}audio/superjew-p1.mp3`,
+      'timing-p1',
+      seed,
+    );
+    return;
+  }
+
   const canvas = document.querySelector<HTMLCanvasElement>('#app-canvas')!;
   const [ctx] = await Promise.all([createSceneContext(canvas), loadFonts()]);
   const { renderer, scene, camera } = ctx;
