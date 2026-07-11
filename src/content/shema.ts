@@ -1,3 +1,5 @@
+import { p2 } from './p2';
+import { p3 } from './p3';
 import type { ShemaContent } from './types';
 
 /**
@@ -179,6 +181,8 @@ export const shema: ShemaContent = {
         },
       ],
     },
+    p2,
+    p3,
   ],
 };
 

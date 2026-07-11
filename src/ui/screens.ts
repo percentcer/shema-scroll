@@ -71,8 +71,24 @@ export class Screens {
       </style>
       <div id="hint"></div>
       <div id="lamp"><div class="flame"></div><span id="lamp-label"></span></div>
-      <div id="chip"></div>`,
+      <div id="chip"></div>
+      <button id="credits-link" style="position:fixed;bottom:10px;right:14px;z-index:5;
+        pointer-events:auto;background:none;border:0;color:#6a5c44;cursor:pointer;
+        font:400 12px Rubik,system-ui;text-decoration:underline">${copy.credits.title}</button>`,
     );
+    document.getElementById('credits-link')!.addEventListener('click', () => {
+      const m = this.layer(
+        'credits-modal',
+        `<div class="card" style="text-align:left;max-width:600px">
+          <h2>${copy.credits.title}</h2>
+          <ul style="padding-left:18px;display:flex;flex-direction:column;gap:8px">
+            ${copy.credits.items.map((i) => `<li style="font:400 13.5px/1.5 Rubik;color:#d9c9a3">${i}</li>`).join('')}
+          </ul>
+          <button class="btn" id="cclose">Close</button></div>`,
+      );
+      m.querySelectorAll('a').forEach((a) => (a.style.color = '#d4a017'));
+      m.querySelector('#cclose')!.addEventListener('click', () => this.dismiss('credits-modal'));
+    });
   }
 
   private layer(id: string, inner: string, scrim = true): HTMLElement {

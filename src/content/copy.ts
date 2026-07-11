@@ -67,6 +67,18 @@ export const copy = {
     ],
   },
   lamp: ['Just arrived', 'Getting the sound', 'Following along', 'Almost there', 'You’ve got this'],
+  credits: {
+    title: 'Credits & sources',
+    items: [
+      'Hebrew text: <a href="https://www.sefaria.org" target="_blank" rel="noopener">Sefaria</a> — “Miqra according to the Masorah” (CC BY-SA). Deuteronomy 6:4–9, Deuteronomy 11:13–21, Numbers 15:37–41.',
+      'Chanted audio: “Shema 1/2/3” by SuperJew via <a href="https://commons.wikimedia.org/wiki/File:Shema_1_SuperJew.ogg" target="_blank" rel="noopener">Wikimedia Commons</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a> (transcoded to MP3, sliced for word-level playback).',
+      'Scroll lettering: Stam Ashkenaz CLM by Yoram Gnat, the Culmus Project (GPL with font-embedding exception).',
+      'Pointed Hebrew: Taamey Frank CLM, Culmus Project (GPL+FE). UI type: Rubik (SIL OFL).',
+      'Parchment textures: <a href="https://ambientcg.com/view?id=Paper005" target="_blank" rel="noopener">ambientCG Paper005</a> (CC0).',
+      'Plain-English translations and all app copy are original to this project.',
+      'Built with three.js (WebGPU renderer). This app supplements a real teacher — it doesn’t replace one.',
+    ],
+  },
   celebration: {
     title: 'You know the Shema ✓',
     body:

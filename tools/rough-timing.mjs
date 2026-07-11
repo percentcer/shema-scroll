@@ -8,8 +8,16 @@ import { readFileSync, writeFileSync } from 'node:fs';
 
 const [audio, pid, out] = process.argv.slice(2);
 
-// Words in reading order from shema.ts (id + translit).
-const src = readFileSync('src/content/shema.ts', 'utf8');
+// Words in reading order from the content modules (id + translit).
+const src = ['shema.ts', 'p2.ts', 'p3.ts']
+  .map((f) => {
+    try {
+      return readFileSync(`src/content/${f}`, 'utf8');
+    } catch {
+      return '';
+    }
+  })
+  .join('\n');
 const words = [...src.matchAll(/id: '(p\dv\d+w\d+)', hePointed: '[^']+', translit: '([^']+)'/g)]
   .map((m) => ({ id: m[1], translit: m[2] }))
   .filter((w) => w.id.startsWith(pid));

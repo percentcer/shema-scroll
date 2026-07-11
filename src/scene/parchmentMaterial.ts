@@ -22,6 +22,8 @@ export interface HighlightHandle {
   hide(): void;
   /** Call each frame with delta seconds to tween strength. */
   update(dt: number): void;
+  /** Change the glow color (default warm gold). */
+  setColor(r: number, g: number, b: number): void;
 }
 
 const FEATHER = 0.006;
@@ -72,6 +74,7 @@ export function createParchmentMaterial(
   const makeRectUniforms = () => ({
     rect: uniform(vec4(0, 0, 0, 0)),
     strength: uniform(0),
+    color: uniform(vec3(1.0, 0.78, 0.25)),
   });
   const h1 = makeRectUniforms();
   const h2 = makeRectUniforms();
@@ -87,13 +90,16 @@ export function createParchmentMaterial(
     return inside.mul(u.strength).mul(breathe);
   };
 
-  const glowColor = vec3(1.0, 0.78, 0.25);
   const glow = add(add(rectGlow(h1), rectGlow(h2)), rectGlow(h3));
+  const glowTint = add(
+    add(h1.color.mul(rectGlow(h1)), h2.color.mul(rectGlow(h2))),
+    h3.color.mul(rectGlow(h3)),
+  );
   const inkMask = ink.a;
 
   const inked = mix(paper, ink.rgb, inkMask);
   // Ink glows bright under highlight; parchment tints faintly.
-  const lit = inked.add(glowColor.mul(glow).mul(inkMask.mul(1.4).add(0.25)));
+  const lit = inked.add(glowTint.mul(inkMask.mul(1.4).add(0.25)));
   material.colorNode = clamp(lit, 0, 2);
 
   material.normalMap = pbr.normal;
@@ -119,6 +125,9 @@ export function createParchmentMaterial(
         const cur = u.strength.value as number;
         const rate = target > cur ? dt / ATTACK : dt / RELEASE;
         u.strength.value = cur + Math.sign(target - cur) * Math.min(rate, Math.abs(target - cur));
+      },
+      setColor(r, g, b) {
+        u.color.value.set(r, g, b);
       },
     };
   };

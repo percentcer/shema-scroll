@@ -4,6 +4,8 @@ export type AppState =
   | { name: 'meaning'; card: string; next: AppState } // interstitial card
   | { name: 'baruchShem' } // the whisper moment
   | { name: 'trace'; paragraph: 'p1' | 'p2' | 'p3' }
+  | { name: 'follow'; paragraph: 'p2' } // the yad glides itself; grab to take over
+  | { name: 'lead'; paragraph: 'p3' } // the kid drives the final paragraph
   | { name: 'quiz'; index: number }
   | { name: 'celebration' }
   | { name: 'explore' }; // free scroll after completion

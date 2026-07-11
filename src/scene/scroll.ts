@@ -7,6 +7,12 @@ export interface ScrollColumnOptions {
   curlAmp?: number;
   /** Parchment waviness amplitude as a fraction of width. */
   noiseAmp?: number;
+  /**
+   * This column's span within the whole unrolled spread, as [u0, u1] in
+   * spread space. Curl + waviness are computed in spread space so adjacent
+   * columns form one continuous sheet. Defaults to the full spread.
+   */
+  spread?: { u0: number; u1: number };
 }
 
 /** Deterministic 2D value noise (two octaves) for parchment waviness. */
@@ -33,12 +39,13 @@ function noise2(x: number, y: number): number {
  * shared by the baked vertex displacement and (later) the yad auto-follow.
  */
 export function surfaceZ(u: number, v: number, opts: ScrollColumnOptions): number {
-  const { width, curlAmp = 0.06, noiseAmp = 0.005 } = opts;
-  // Gentle curl toward both side edges (where the rollers live).
-  const edge = Math.pow(Math.abs(u - 0.5) * 2, 3);
+  const { width, curlAmp = 0.06, noiseAmp = 0.005, spread } = opts;
+  const gu = spread ? spread.u0 + u * (spread.u1 - spread.u0) : u;
+  // Gentle curl toward both side edges of the SPREAD (where the rollers live).
+  const edge = Math.pow(Math.abs(gu - 0.5) * 2, 3);
   const curl = -curlAmp * edge;
   const wave =
-    noiseAmp * width * (noise2(u * 6, v * 3) * 0.7 + noise2(u * 14, v * 7) * 0.3 - 0.5);
+    noiseAmp * width * (noise2(gu * 6, v * 3) * 0.7 + noise2(gu * 14, v * 7) * 0.3 - 0.5);
   return curl + wave;
 }
 

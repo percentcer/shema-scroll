@@ -1,0 +1,110 @@
+{
+  "p2": {
+    "nickname": "With all your heart (the long one)",
+    "mode": "follow",
+    "audioTrack": "audio/superjew-p2.mp3",
+    "verses": {
+      "p2v13": {
+        "english": "If you really listen — love God and live it, with all your heart and all your soul —",
+        "translit": ["v'ha-YA", "im", "sha-MO-a", "tish-m'U", "el", "mitz-vo-TAI", "a-SHER", "a-no-CHI", "m'tza-VE", "et-CHEM", "ha-YOM", "l'a-ha-VA", "et", "a-do-NAI", "e-lo-hei-CHEM", "ul-ov-DO", "b'CHOL", "l'vav-CHEM", "u-v'CHOL", "naf-sh'CHEM"],
+        "gloss": { "4": "listen", "12": "today", "18": "your heart", "20": "your soul" }
+      },
+      "p2v14": {
+        "english": "then the rain comes when your land needs it — autumn rain, spring rain — and you gather your grain, your wine, your oil.",
+        "translit": ["v'na-ta-TI", "m'TAR", "ar-tz'CHEM", "b'i-TO", "yo-RE", "u-mal-KOSH", "v'a-saf-TA", "d'ga-NE-cha", "v'ti-rosh-CHA", "v'yitz-ha-RE-cha"],
+        "gloss": { "2": "rain", "3": "your land", "8": "your grain" }
+      },
+      "p2v15": {
+        "english": "Grass in your fields for your animals — and you’ll eat, and you’ll be full.",
+        "translit": ["v'na-ta-TI", "EI-sev", "b'sad-CHA", "liv-hem-TE-cha", "v'a-chal-TA", "v'sa-VA-ta"],
+        "gloss": { "2": "grass", "5": "you’ll eat", "6": "you’ll be full" }
+      },
+      "p2v16": {
+        "english": "But watch yourselves — hearts drift, and it’s easy to end up serving other things.",
+        "translit": ["hi-sham-RU", "la-CHEM", "pen", "yif-TE", "l'vav-CHEM", "v'sar-TEM", "va-a-vad-TEM", "e-lo-HIM", "a-chei-RIM", "v'hish-ta-cha-vi-TEM", "la-HEM"],
+        "gloss": { "1": "watch out", "5": "your heart", "9": "other" }
+      },
+      "p2v17": {
+        "english": "Then everything dries up — the sky closes, no rain, nothing grows — and the good land slips away.",
+        "translit": ["v'cha-RA", "af", "a-do-NAI", "ba-CHEM", "v'a-TZAR", "et", "ha-sha-MA-yim", "v'LO", "yih-YE", "ma-TAR", "v'ha-a-da-MA", "lo", "ti-TEN", "et", "y'vu-LAH", "va-a-vad-TEM", "m'hei-RA", "mei-AL", "ha-A-retz", "ha-to-VA", "a-SHER", "a-do-NAI", "no-TEN", "la-CHEM"],
+        "gloss": { "7": "the sky", "10": "rain", "19": "the land", "20": "the good" }
+      },
+      "p2v18": {
+        "english": "So keep these words on your heart and soul; tie them on your hand, let them sit between your eyes.",
+        "translit": ["v'sam-TEM", "et", "d'va-RAI", "EI-le", "al", "l'vav-CHEM", "v'AL", "naf-sh'CHEM", "u-k'shar-TEM", "o-TAM", "l'OT", "al", "yed-CHEM", "v'ha-YU", "l'to-ta-FOT", "bein", "ei-nei-CHEM"],
+        "gloss": { "3": "my words", "13": "your hand", "17": "your eyes" }
+      },
+      "p2v19": {
+        "english": "Teach them to your kids — at home, on the road, lying down, getting up. Sound familiar?",
+        "translit": ["v'li-mad-TEM", "o-TAM", "et", "b'nei-CHEM", "l'da-BEIR", "bam", "b'shiv-t'CHA", "b'vei-TE-cha", "u-v'lech-t'CHA", "va-DE-rech", "u-v'shoch-b'CHA", "u-v'ku-ME-cha"],
+        "gloss": { "1": "teach them", "4": "your kids", "8": "at home", "10": "on the road" }
+      },
+      "p2v20": {
+        "english": "Write them on the doorposts of your house and on your gates.",
+        "translit": ["u-ch'tav-TAM", "al", "m'zu-ZOT", "bei-TE-cha", "u-vish-a-RE-cha"],
+        "gloss": { "3": "doorposts", "4": "your house", "5": "your gates" }
+      },
+      "p2v21": {
+        "english": "So that you and your kids live long on the promised land — days as long as the sky is over the earth.",
+        "translit": ["l'MA-an", "yir-BU", "y'mei-CHEM", "vi-MEI", "v'nei-CHEM", "al", "ha-a-da-MA", "a-SHER", "nish-BA", "a-do-NAI", "la-a-vo-tei-CHEM", "la-TEIT", "la-HEM", "ki-MEI", "ha-sha-MA-yim", "al", "ha-A-retz"],
+        "gloss": { "3": "your days", "7": "the land", "15": "the sky" }
+      }
+    },
+    "meaningCard": {
+      "title": "Actions ripple",
+      "body": "This paragraph was written for farmers, so it talks in rain: listen well and the rain comes, drift away and the sky dries up. You don’t have to read it as a weather forecast. Read it as the way the world actually works — what you do ripples out into the world you live in. Listening, the Torah says, is something the land itself can feel.",
+      "anchorVerse": "p2v21"
+    },
+    "facts": [
+      {
+        "id": "fact-echo",
+        "anchorWord": "p2v19w7",
+        "body": "Wait — at home, on the road, lying down, getting up… you’ve read this before. The Torah repeats it on purpose: first it told YOU to keep these words close. Now it tells the whole community. Same words, bigger circle."
+      }
+    ]
+  },
+  "p3": {
+    "nickname": "Fringes & freedom",
+    "mode": "lead",
+    "audioTrack": "audio/superjew-p3.mp3",
+    "verses": {
+      "p3v37": {
+        "english": "God spoke to Moses:",
+        "translit": ["va-YO-mer", "a-do-NAI", "el", "mo-SHE", "lei-MOR"],
+        "gloss": { "4": "Moses" }
+      },
+      "p3v38": {
+        "english": "Tell the Israelites: put fringes on the corners of your clothes, in every generation — with one thread of sky-blue.",
+        "translit": ["da-BEIR", "el", "b'NEI", "yis-ra-EIL", "v'a-mar-TA", "a-lei-HEM", "v'a-SU", "la-HEM", "tzi-TZIT", "al", "kan-FEI", "vig-dei-HEM", "l'do-ro-TAM", "v'nat-NU", "al", "tzi-TZIT", "ha-ka-NAF", "p'TIL", "t'CHEI-let"],
+        "gloss": { "9": "fringes", "11": "corners", "18": "a thread", "19": "sky-blue" }
+      },
+      "p3v39": {
+        "english": "You’ll see the fringe and remember what matters — and do it, instead of just chasing whatever your heart and eyes run after.",
+        "translit": ["v'ha-YA", "la-CHEM", "l'tzi-TZIT", "ur-i-TEM", "o-TO", "uz-char-TEM", "et", "kol", "mitz-VOT", "a-do-NAI", "va-a-si-TEM", "o-TAM", "v'LO", "ta-TU-ru", "a-cha-REI", "l'vav-CHEM", "v'a-cha-REI", "ei-nei-CHEM", "a-SHER", "a-TEM", "zo-NIM", "a-cha-rei-HEM"],
+        "gloss": { "4": "you’ll see", "6": "you’ll remember", "16": "your heart", "18": "your eyes" }
+      },
+      "p3v40": {
+        "english": "Remember, do, and be holy — set apart for your God.",
+        "translit": ["l'MA-an", "tiz-k'RU", "va-a-si-TEM", "et", "kol", "mitz-vo-TAI", "vih-yi-TEM", "k'do-SHIM", "lei-lo-hei-CHEM"],
+        "gloss": { "2": "remember", "8": "holy" }
+      },
+      "p3v41": {
+        "english": "I am the Eternal your God, who brought you out of Egypt to be your God. I am the Eternal your God.",
+        "translit": ["a-NI", "a-do-NAI", "e-lo-hei-CHEM", "a-SHER", "ho-TZEI-ti", "et-CHEM", "mei-E-retz", "mitz-RA-yim", "lih-YOT", "la-CHEM", "lei-lo-HIM", "a-NI", "a-do-NAI", "e-lo-hei-CHEM"],
+        "gloss": { "1": "I am", "8": "Egypt", "5": "brought out" }
+      }
+    },
+    "meaningCard": {
+      "title": "Freedom is the punchline",
+      "body": "Fringes on your clothes, a thread of sky-blue — little physical reminders, because everyone’s heart and eyes wander. And then the last line lands: I brought you out of Egypt. The whole Shema ends on freedom. You remember, you notice, you choose — because you’re free to. That’s the note it goes out on, and it’s yours now too.",
+      "anchorVerse": "p3v41"
+    },
+    "facts": [
+      {
+        "id": "fact-tekhelet",
+        "anchorWord": "p3v38w19",
+        "body": "T’CHEI-let is a sky-blue dye that came from one specific sea snail. The recipe was lost for more than a thousand years — nobody could make the blue thread — and only recently did researchers track the snail down again. Some tzitzit today carry that exact blue once more."
+      }
+    ]
+  }
+}
