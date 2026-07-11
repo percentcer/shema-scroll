@@ -1,5 +1,10 @@
 # The Living Scroll — B'Mitzvah Confidence Coach
 
+> **Note:** development has moved to the shared sprint repo
+> [`kbudelis/commonera`](https://github.com/kbudelis/commonera) under
+> `bmitzvah-coach/`. This repo is the original standalone version with the
+> full sprint commit history; the demo below stays live.
+
 A proof-of-concept for the Common Era vibe-coding sprint: learn the Shema by
 **touching an actual Torah scroll**.
 
