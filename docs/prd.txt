@@ -1,0 +1,211 @@
+﻿COMMON ERA × VIBE CODING SPRINT
+ B'MITZVAH CONFIDENCE COACH
+  Product Requirements Document
+  Working title · Learn the blessings. Understand what they mean. Feel ready.
+	 
+1  TL;DR
+	 
+One-liner
+	A Duolingo-style app that helps kids feel genuinely ready for their B'Mitzvah — by learning the sounds and meaning of the blessings in short, fun sessions. Not memorization. Understanding.
+	 
+The problem
+	Thousands of kids approach their B'Mitzvah anxious and underprepared — not because they don't care, but because existing options are too rigid (Hebrew school), too expensive (private tutors), or too shallow (YouTube). Many families — especially unaffiliated or interfaith ones — have no clear path.
+45% of families whose 12-13 year old didn't have a B'Mitzvah cite child resistance as the primary reason. Much of that resistance is anxiety masquerading as disinterest. The kid doesn't know the words, doesn't understand what they mean, and doesn't feel ready.
+	 
+The solution
+	Short, accessible practice sessions — hear the blessing, follow along with transliteration, learn what it actually means in plain English. No Hebrew background required. No synagogue membership. No assumed knowledge.
+Built for kids, but designed so a parent who was never b'mitzvahed — or isn't Jewish — can sit alongside and actually understand what their kid is learning.
+	 
+Sprint deliverable
+	Proof of concept: a working flow for one core blessing (the Shema) — hear it, follow along, understand what it means. Simple, demonstrable, and enough for CE to react to. Full gamification, multiple blessings, and progress tracking are nice-to-haves depending on build time.
+	 
+2  CE MISSION FIT
+	 
+Who it serves
+	Kids 10-13 approaching a B'Mitzvah — especially those in unaffiliated, cultural, or interfaith families who aren't in Hebrew school, can't afford regular tutoring, or whose child is resistant to traditional prep.
+Parents are the secondary user: particularly those who weren't b'mitzvahed themselves, aren't Jewish, or simply don't know the blessings well enough to help. The app should work for the whole family, not just the kid.
+	 
+Why CE can do this
+	The B'Mitzvah prep market is dominated by expensive tutors and synagogue programs that require membership and prior affiliation. There's nothing accessible, modern, and genuinely non-denominational that works for the families CE is trying to reach.
+CE is uniquely positioned to build this without the institutional baggage — no synagogue affiliation, no assumed Hebrew knowledge, no judgment about how Jewish you are or aren't.
+	 
+Jewish lens
+	Meaning-first. The app doesn't treat Hebrew as a performance requirement — it treats it as something interesting. Every blessing has a story, a reason, and a human moment behind it. That's the hook for secular and unaffiliated families.
+Non-denominational by design. Works for Reform, Conservative, Reconstructionist, unaffiliated, interfaith, and 'JewISH' families. B'Mitzvah styles vary wildly — some families want full Hebrew chanting within a long service, others just want to say the Shema together at a backyard party. This app serves both without assuming.
+	 
+3  THE USER
+	 
+THE KID (Primary)
+	THE PARENT (Secondary)
+	Jordan, 12. B'Mitzvah is in 8 months. Not in Hebrew school. Has seen other kids struggle through Torah portions and is quietly terrified.
+Curious about their Jewish identity but doesn't want to feel stupid or out of place. Would practice more if it felt less like homework.
+Responds well to progress — likes knowing when something is going well.
+Probably plays mobile games. Short attention span for anything that feels educational or preachy.
+Success for Jordan: knows what the blessings mean, feels prepared, and isn't panicking in the weeks before.
+	Sam, 43. Jewish parent in an interfaith household. Wasn't b'mitzvahed. Wants Jordan's B'Mitzvah to feel meaningful but doesn't know the blessings well enough to help practice.
+Feels a bit lost — no reference point for 'good enough.' Wants to be supportive but can't really coach something they don't know.
+Also a potential user: would love to learn alongside Jordan, or just understand what they're preparing.
+Success for Sam: Jordan is practicing, the app feels accessible even to non-Hebrew speakers, and the whole process feels less overwhelming.
+	 
+4  GOALS & NON-GOALS
+	 
+MUST ACHIEVE (sprint)
+	NICE TO HAVE (if time)
+	NOT THIS SPRINT
+	Working flow for one core blessing: the Shema
+Audio playback of the blessing (licensed recording)
+Transliteration so anyone can follow along — no Hebrew reading required
+Plain-English explanation of what the words mean and why people say them
+Feels accessible to a kid with zero Hebrew background
+Parents can use it too — not just kids
+	Short quiz after the session (sounds + meaning)
+Additional blessings: Kiddush, Motzi, Torah blessings
+B'Mitzvah countdown timer
+Confidence/progress tracker per blessing
+Unlock animation when a blessing is completed
+Hebrew vocabulary track (cultural words, not blessings)
+Parasha discovery: enter your B'Mitzvah date and see your Torah portion
+
+
+	Pronunciation feedback / voice input (too complex)
+Full Torah portion trope
+Denomination-specific content variations
+Streak / daily reminders
+Social or community features
+Video or live tutoring integration
+Replacement for an actual tutor
+	 
+5  MVP SCOPE — CONTENT
+	 
+SPRINT SCOPE · One blessing, done really well
+This is a proof-of-concept sprint. The goal isn't to build all the content — it's to demonstrate the core experience clearly enough that CE can feel what the full product could be. Start with the Shema. If time allows, add a second blessing. Everything else is nice to have.
+	 
+SPRINT MVP — The Shema
+#
+	Blessing
+	What you hear + follow
+	What you learn (meaning)
+	1
+	The Shema
+Sprint MVP
+	Shema Yisrael — short, singable, the most recognizable moment in Jewish life. Audio playback + transliteration so anyone can follow, no Hebrew reading required.
+	The core declaration of Jewish identity. Why Jews say it at milestone moments. What it actually means, line by line, in plain English.
+	 
+Why the Shema
+	It's the most central and recognizable moment in Jewish life — nearly every B'Mitzvah includes it, every style. It's also short enough to build the full experience around in a single sprint session. Start here. Prove the mechanic. Then expand.
+	 
+NICE TO HAVE — Additional Blessings 
+#
+	Blessing
+	What you hear + follow
+	What you learn (meaning)
+	2
+	Kiddush
+Nice to have
+	The blessing over wine or grape juice — said at Shabbat and at the B'Mitzvah celebration. Short and widely used.
+	Why Jews sanctify time with wine. The idea of marking ordinary vs. special moments.
+	3
+	Motzi
+Nice to have
+	The blessing over bread — said before eating challah at Shabbat and celebrations. Very short.
+	Gratitude for food. Why bread and why this blessing — the Jewish relationship between eating and meaning.
+	4
+	Torah Blessings
+Nice to have
+	Barchu and the blessings said when called to the Torah — the ceremonial centerpiece of most B'Mitzvah services.
+	The honor of being called up. Why the whole community witnesses it. What it means to stand at the Torah.
+	 
+NICE TO HAVE — Your Torah Portion
+Torah Portion
+	A lightweight discovery feature, distinct from blessing practice. Enter your B'Mitzvah date and the app shows you: which Torah portion is yours, a plain-English summary of what's in it, and a brief explanation of how the weekly parasha cycle works — why this portion falls on your date, and what it means that it's 'yours.'
+Informational, not instructional — no trope, no chanting, no attempt to teach the full portion. Think of it as a personalized context card: 'Your portion is Lech-Lecha. Here's what happens in it, and why every B'Mitzvah kid has their own.' 
+	 
+Even later / v2
+	Hebrew vocabulary track (cultural words like Shabbat, mitzvah, tikkun olam) · Havdalah · Full Hebrew alphabet module · Pronunciation feedback · Parent dashboard · Streak / reminders
+	 
+ 
+6  CORE FLOW
+	 
+SPRINT SCOPE · Build steps 1–3 as the proof-of-concept core. Steps 4–5 are nice to have.
+The goal is for CE to experience the loop firsthand: land → hear the Shema → understand what it means. That alone is enough to react to.
+	 
+1
+	Landing
+	"Feel ready for your B'Mitzvah." — The anxiety is the entry point. The promise is confidence, not curriculum.
+"Learn the blessings. Understand what they mean. Feel ready." Simple, direct, non-intimidating.
+CTA: 'Start with the Shema' — no login required, no setup. Just begin
+Note: sample copy; feel free to edit or adjust. 
+	2
+	The Shema session
+	(a) Hear it — audio playback of the full Shema with a prominent play button. Big text. No assumed Hebrew literacy.
+(b) Follow along — transliteration line by line so anyone can read along out loud, even with zero Hebrew background.
+(c) What does it mean? — 3-4 short paragraphs in plain English. Not a lecture. More like: 'here's the thing Jews say, here's why, here's what it actually means word by word.'
+Tone: curious and warm, like a smart older sibling explaining — not a rabbi, not a textbook.
+	3
+	End of session
+	Short, encouraging close: 'You just learned the Shema. That's the most important moment in Jewish life — and now you know what it means.'
+Optional: simple 3-question quiz mixing sound recognition and meaning. Not required for the sprint build.
+Clear next step: 'Up next: Kiddush — the blessing over wine' (if built). Or just: 'Come back tomorrow for the next one.'
+	4
+	Progress (nice to have)
+	Confidence bar that fills as the kid completes sessions — visual, tangible, satisfying.
+B'Mitzvah countdown timer: 'Your B'Mitzvah is in 127 days.'
+Encouraging feedback after quiz: specific, not just a score ('You know the sounds — work on the last line').
+	5
+	Shareable moment (nice to have)
+	'You know the Shema. ✓' — simple unlock moment when a blessing is completed. Earned, not just checked off.
+Optional parent view: what did my kid just learn? One-screen summary, readable by a non-Hebrew speaker.
+Optional link to B'Mitzvah 2.0: 'Design your whole B'Mitzvah journey →'
+	 
+7  AI & CONTENT DIRECTION
+	 
+AI SHOULD
+	AI SHOULD NOT
+	Generate the meaning explanation for each prayer in plain, conversational English — no jargon, no assumed knowledge
+	Generate Hebrew audio (use licensed recordings for accuracy — mispronounced AI audio is worse than no audio)
+	Adapt quiz questions based on which answers the kid keeps getting wrong — more reps on the hard parts
+	Evaluate pronunciation in MVP — technically complex and error-prone; keep it tap-to-listen for now
+	Power a "Did you know?" fact for each prayer — short, interesting, shareable cultural context
+	Replace human tutors — the app supplements; for complex Torah portion practice, always recommend a real teacher
+	 
+8  VISUAL VIBE
+	 
+Tone
+	Encouraging · Gamified · Warm. The app should feel like an achievement, not an obligation. Every session ends with the kid feeling better than when they started.
+	 
+Reference points
+	Duolingo (gamified progress, streaks, celebratory animations) meets something a Jewish 12-year-old would actually want to open. Warm greens and golds — not institutional blue. Progress feels earned.
+	 
+Visual guidelines
+	Progress bar (or similar visual sign of progress) fills up as confidence grows — satisfying, visual, tangible. Never show a 'score'; show a 'confidence level.'
+Hebrew letters rendered clearly and beautifully — big, confident, not squeezed into a corner. Make the script feel interesting, not intimidating.
+Audio play button is prominent and always visible.
+Illustration style: modern, warm, non-stereotypical. Diverse kids. 
+Unlock fun graphics or animations when a module is completed — brief, satisfying, earned.
+	 
+Comparable products
+	Duolingo (structure, gamification, streak mechanic), Reading.com reading app (Great simple learning process and fun gamification), Spotify (the app you actually want to open). 
+	 
+9  SUCCESS CRITERIA
+	 
+SPRINT STANDARD · Proof of concept, not polished product
+Success here means CE can experience the core loop and understand what the full product could be and how it might look and feel. It does not mean a fully featured app.
+	 
+#
+	What we test
+	Target
+	1
+	Someone with zero Hebrew background can go from landing to preliminary understanding of the Shema 
+	Under 10 minutes, no confusion, no assumed knowledge
+	2
+	After the session, the user understands what the Shema actually says and why Jews say it
+	Qualitative: meaning explanation lands clearly for non-Jewish and non-Hebrew-speaking reviewers
+	3
+	The experience feels light and fun
+	Qualitative: tone feels warm and curious, not preachy or educational
+	4
+	A parent who isn't Jewish can use it alongside their kid and find it accessible
+	Initial experience doesn’t require Hebrew literacy or knowledge of Jewish tradition 
+	5
+	CE can see clearly what the full product would look like with more blessings, functionality, and gamification
+	The proof of concept is legible as a product vision
