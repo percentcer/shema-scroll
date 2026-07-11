@@ -1,4 +1,7 @@
 import { HemisphereLight, PointLight } from 'three/webgpu';
+import { AudioEngine } from './audio/engine';
+import { KaraokePlayer } from './audio/karaoke';
+import { ScrubPlayer } from './audio/scrub';
 import { paragraphWords } from './content/shema';
 import { ScrollPointer } from './interaction/pointer';
 import { createSceneContext } from './scene/renderer';
@@ -52,9 +55,44 @@ async function boot() {
 
   const index = new WordIndex(baked.words);
   const pointer = new ScrollPointer(canvas, camera, column, index);
+
+  // Stage-4: audio core. Scrub on hover, hold to repeat, karaoke via button.
+  const engine = new AudioEngine();
+  await engine.loadTrack('p1', 'audio/superjew-p1.mp3', 'timing/p1.json');
+  const scrub = new ScrubPlayer(engine, 'p1');
+  const karaoke = new KaraokePlayer(engine, 'p1');
+  karaoke.on('word', ({ id }) => console.info(`[karaoke] ${id}`));
+  karaoke.on('ended', () => console.info('[karaoke] ended'));
+
+  canvas.addEventListener('pointerdown', () => engine.unlock(), { once: true });
+
   pointer
-    .on('wordenter', ({ word }) => console.info(`[pointer] enter ${word.id}`))
-    .on('wordhold', ({ word }) => console.info(`[pointer] hold ${word.id}`));
+    .on('wordenter', ({ word }) => {
+      console.info(`[pointer] enter ${word.id}`);
+      if (!karaoke.playing) scrub.wordEnter(word.id);
+    })
+    .on('wordhold', ({ word }) => {
+      if (!karaoke.playing) scrub.wordHold(word.id);
+    })
+    .on('wordleave', () => scrub.wordLeave());
+
+  const ui = document.querySelector<HTMLDivElement>('#ui-root')!;
+  ui.innerHTML = `<button id="play" style="position:fixed;bottom:24px;left:50%;
+    transform:translateX(-50%);pointer-events:auto;background:#d4a017;border:0;
+    border-radius:24px;padding:12px 28px;font:600 16px Rubik,system-ui;cursor:pointer">
+    ▶ Hear the whole thing</button>`;
+  ui.querySelector<HTMLButtonElement>('#play')!.addEventListener('click', async (e) => {
+    await engine.unlock();
+    const btn = e.currentTarget as HTMLButtonElement;
+    if (karaoke.playing) {
+      karaoke.stop();
+      btn.textContent = '▶ Hear the whole thing';
+    } else {
+      scrub.stop();
+      karaoke.play();
+      btn.textContent = '⏸ Pause';
+    }
+  });
 
   const candle = new PointLight('#ffb066', 12, 0, 2);
   candle.position.set(-0.8, 0.9, 1.1);
